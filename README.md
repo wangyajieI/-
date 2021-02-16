@@ -54,14 +54,14 @@ scapy genspider itcast itcast.com
 ```
 ## 2.2 scrapy集成mongodb
 - mongodb只是数据保存的方式，因此，集成mongodb只需要改动两个地方即可
--- 2.2.1 settings中增加mongodb定义，比如MONGODB_HOST, MONGODB_PORT, MONGODB_NAME, MONGODB_DOCNAME
--- 2.2.2 pipeline.py中增加mongodb保存数据的代码，注意，需要在process_item中将item的内容按照items.py中定义的结构保存到collections中<col.insert_one()>
+- 2.2.1 settings中增加mongodb定义，比如MONGODB_HOST, MONGODB_PORT, MONGODB_NAME, MONGODB_DOCNAME
+- 2.2.2 pipeline.py中增加mongodb保存数据的代码，注意，需要在process_item中将item的内容按照items.py中定义的结构保存到collections中<col.insert_one()>
 ## 2.3 scrapy集成redis
 - redis是一个典型的缓存式数据库，scrapy中经常用来作为spider爬取之后的缓存队列使用
--- 2.3.1 spider中，spider class需要继承scrapy_redis.spiders.RedisSpider类，这样，数据就直接先保存在了spider中
--- 2.3.2 spider中，去掉start_urls，而将原有的start_urls保存在redis中。
--- 2.3.3 settings中，需要定义redis相关的配置项，比如REDIS_HOST, REDIS_PORT, SCHEDULER， DUPEFILTER_CLASS， SCHEDULER_PERSIST， ITEM_PIPELINES
---- 2.3.3.1 REDIS_START_URLS_AS_SET 这个字段设置为True，那么2.3.2章节中保存reids时，应该用sadd，否则用lpush
---- 2.3.3.2 ITEM_PIPELINES中设置my_prj.pipelines.my_prjPipeline的值，一定不能是None，否则无法保存到数据库
+- 2.3.1 spider中，spider class需要继承scrapy_redis.spiders.RedisSpider类，这样，数据就直接先保存在了spider中
+- 2.3.2 spider中，去掉start_urls，而将原有的start_urls保存在redis中。
+- 2.3.3 settings中，需要定义redis相关的配置项，比如REDIS_HOST, REDIS_PORT, SCHEDULER， DUPEFILTER_CLASS， SCHEDULER_PERSIST， ITEM_PIPELINES
+- 2.3.3.1 REDIS_START_URLS_AS_SET 这个字段设置为True，那么2.3.2章节中保存reids时，应该用sadd，否则用lpush
+- 2.3.3.2 ITEM_PIPELINES中设置my_prj.pipelines.my_prjPipeline的值，一定不能是None，否则无法保存到数据库
 ## 2.4 scrapy添加extension层
 - redis key用完之后，scrapy并不会停下来，这时候可以添加extension层，解决redis key为空后的空跑问题
