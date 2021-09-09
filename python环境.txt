@@ -1,0 +1,24 @@
+1、ctypes问题
+一般而言，Linux中安装python3 需要编译，这时候会借助于一些Linux官方的库，这时候往往会因为系统没有一些库，导致编译问题，
+有时候python编译可以通过，但在实际使用时，会报错。
+如下一个例子：
+  Traceback (most recent call last):
+      File "<string>", line 1, in <module>
+      File "/usr/local/bin/python3/lib/python3.9/site-packages/setuptools/__init__.py", line 18, in <module>
+        from setuptools.dist import Distribution
+      File "/usr/local/bin/python3/lib/python3.9/site-packages/setuptools/dist.py", line 34, in <module>
+        from setuptools import windows_support
+      File "/usr/local/bin/python3/lib/python3.9/site-packages/setuptools/windows_support.py", line 2, in <module>
+        import ctypes
+      File "/usr/local/bin/python3/lib/python3.9/ctypes/__init__.py", line 8, in<module>
+        from _ctypes import Union, Structure, Array
+    ModuleNotFoundError: No module named '_ctypes'
+    ----------------------------------------
+
+这时候无论如何，都没法解决这个问题，找了大概两三个小时，终于发现问题了。
+解决方案：
+首先安装Linux 包： 
+    yum -y install libffi-devel  tk-devel
+然后重新编译python
+然后编译脚本就可以了。
+
